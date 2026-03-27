@@ -1,0 +1,33 @@
+<div class="row">
+  <a [routerLink]="['..']">Volver al listado de ofertas inscritas</a>
+</div>
+<div class="row">
+  <h2>Oferta de trabajo</h2>
+  <div>
+    Empresa: {{offer.company.name}}
+  </div>
+  <div>
+    Puesto: {{offer.job.name}}
+  </div>
+  <div>
+    Descripción: {{offer.job.description}}
+  </div>
+  <div>
+    Provincia: {{offer.province.name}}
+  </div>
+  <div>
+    Municipio: {{offer.municipe.name}}
+  </div>
+  <div>
+    Família profesional: {{offer.category.name}}
+  </div>
+  <div>
+    Títulos requeridos:
+    <ul>
+      <li *ngFor="let title of offer.title">{{title.name}}</li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <button (click)="removeRegisteredToOffer(offer)">Anular inscripción</button>
+</div>

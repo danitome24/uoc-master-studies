@@ -1,0 +1,22 @@
+<div class="container-sign-in margin-top">
+  <img class="logo" src="assets/logo-uoc.png">
+  <form [formGroup]="signInForm" (ngSubmit)="submitForm()">
+    <div class="row">
+      <label for="signin-email">Email: </label>
+      <input id="signin-email" formControlName="email" type="text">
+    </div>
+    <div>
+      <label for="signin-password">Password: </label>
+      <input id="signin-password" formControlName="password" type="password">
+    </div>
+    <div>
+      <button type="submit" [disabled]="this.formIsEmpty() || !this.emailIsValid()">
+        Login
+      </button>
+      <button>Recuperar contraseña</button>
+    </div>
+  </form>
+  <div class="error" *ngIf="message != ''">
+    Email inválido
+  </div>
+</div>

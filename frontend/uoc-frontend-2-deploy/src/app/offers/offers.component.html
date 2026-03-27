@@ -1,0 +1,9 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Ofertas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <app-offers-list *ngIf="isOffersList"></app-offers-list>
+        <app-offers-profile *ngIf="!isOffersList"></app-offers-profile>
+    </mat-card-content>
+</mat-card>

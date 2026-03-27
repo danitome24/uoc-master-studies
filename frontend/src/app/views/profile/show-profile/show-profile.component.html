@@ -1,0 +1,94 @@
+<div class="container">
+  <div>
+    <a routerLink="/admin/profile/edit">Editar</a>
+  </div>
+  <div>
+    <div class="profile-column">
+      <img class="profile-image" src="assets/profile-user.png" alt="User profile picture">
+      {{user.name}}, {{user.surname}}
+    </div>
+    <div class="profile-column">
+      <p>Email: {{user.email}}</p>
+      <p>Fecha de nacimiento: {{user.birthdate}}</p>
+      <p>Teléfono: {{user.phone}}</p>
+      <p>{{user.documentType.name}}: {{user.documentNumber}}</p>
+      <p>Permisos de conducir: {{user.license}}</p>
+    </div>
+    <div class="profile-column">
+      <label for="about-me">Acerca de mi</label>
+      <textarea id="about-me" readonly>
+        {{user.aboutMe}}
+      </textarea>
+    </div>
+    <div class="profile-column">
+      <label for="other-competencies">Otras competencias</label>
+      <textarea id="other-competencies" [readOnly]="true">
+        {{user.otherCompetences}}
+      </textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <h2>Formación academica</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Nivel</th>
+        <th>Título</th>
+        <th>Centro</th>
+        <th>Fecha</th>
+        <th>Certificado</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let study of user.studies">
+        <td>{{study.level.name}}</td>
+        <td>{{study.title}}</td>
+        <td>{{study.institution.name || study.institution}}</td>
+        <td>{{study.date}}</td>
+        <td>{{study.certificate}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <h2>Experiencia laboral</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Empresa</th>
+        <th>Puesto</th>
+        <th>Fechas</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let experience of user.experiencies">
+        <td>{{experience.company}}</td>
+        <td>{{experience.position}}</td>
+        <td>{{experience.date}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <h2>Idiomas</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Nivel</th>
+        <th>Idioma</th>
+        <th>Fecha</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let language of user.languages">
+        <td>{{language.level.name}}</td>
+        <td>{{language.name.name}}</td>
+        <td>{{language.date}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

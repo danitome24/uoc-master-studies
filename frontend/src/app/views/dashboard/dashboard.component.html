@@ -1,0 +1,9 @@
+<h1>Dashboard</h1>
+
+<ul>
+  <li *ngIf="userStoreService.token().hasStudentRole()"><a routerLink="/admin/profile">Ver perfil de estudiante</a></li>
+  <li *ngIf="userStoreService.token().hasStudentRole()"><a routerLink="/admin/offers">Ver las propuestas</a></li>
+  <li *ngIf="userStoreService.token().hasStudentRole()"><a routerLink="/admin/offers/my-job">Mis ofertas suscritas</a>
+  </li>
+  <li *ngIf="userStoreService.token().hasCompanyRole()"><a routerLink="/admin/configuration">Configuración</a></li>
+</ul>

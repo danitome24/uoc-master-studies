@@ -1,0 +1,142 @@
+<mat-card>
+    <div id="foto-perfil">
+        <div>
+            <img
+                    class="img-fluid img-profile rounded-circle mx-auto mb-2"
+                    src="{{ ( user$ | async ).avatar_hash }}"
+            />
+        </div>
+        <div class="text-center pr-5">
+            {{ (user$ | async).name + ' ' + (user$ | async).surname }}
+        </div>
+    </div>
+
+    <section id="datosPersonales">
+        <mat-list>
+            <mat-list-item>Email:  {{ (user$ | async).email }}</mat-list-item>
+            <mat-list-item>Fecha de nacimiento: {{ (user$ | async).birthdate }}</mat-list-item>
+            <mat-list-item>Tel&eacute;fono: {{ (user$ | async).phone }}</mat-list-item>
+            <mat-list-item>NIF/NIE: {{ (user$ | async).documentNumber }}</mat-list-item>
+            <mat-list-item>Permisos de conducir: {{ (user$ | async).license }}</mat-list-item>
+            <mat-list-item>Direccion: {{ (user$ | async).address | json }}</mat-list-item>
+            <mat-list-item>Acerca de mi...: {{(user$ | async).aboutMe}}</mat-list-item>
+            <mat-list-item>Otras competencias...: {{(user$ | async).otherCompetences}}</mat-list-item>
+        </mat-list>
+        <a mat-stroked-button color="primary" [routerLink]="['/admin/profile/profile-student/account']">Modificar</a>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section>
+        <h2>Formaci&oacute;n acad&eacute;mica</h2>
+
+        <table mat-table [dataSource]="studyDatasource">
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> Tipo</th>
+                <td mat-cell *matCellDef="let study"> {{study.level.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="level">
+                <th mat-header-cell *matHeaderCellDef> Nivel</th>
+                <td mat-cell *matCellDef="let study"> {{study.grade?.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef> Título</th>
+                <td mat-cell *matCellDef="let study"> {{study.title.name || study.title}} </td>
+            </ng-container>
+            <ng-container matColumnDef="center">
+                <th mat-header-cell *matHeaderCellDef> Centro</th>
+                <td mat-cell *matCellDef="let study"> {{study.institution.name || study.institution}} </td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Fecha</th>
+                <td mat-cell *matCellDef="let study"> {{study.date}} </td>
+            </ng-container>
+            <ng-container matColumnDef="cert">
+                <th mat-header-cell *matHeaderCellDef> Certificado</th>
+                <td mat-cell *matCellDef="let study"> {{study.certificate ? 'Sí' : 'No'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="bilingue">
+                <th mat-header-cell *matHeaderCellDef> Bilingüe</th>
+                <td mat-cell *matCellDef="let study"> {{study.bilingue ? 'Sí' : 'No'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dual">
+                <th mat-header-cell *matHeaderCellDef> Dual</th>
+                <td mat-cell *matCellDef="let study"> {{study.dual ? 'Sí' : 'No'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                <td mat-cell *matCellDef="let study">
+                    <a mat-button color="primary" [routerLink]="['/admin/profile/profile-student/study', study.uid]">Editar</a>
+                    |
+                    <a mat-button color="primary" style="cursor:pointer" (click)="deleteStudy(study.uid)">Borrar</a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsStudies"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsStudies;"></tr>
+        </table>
+
+        <a mat-button color="primary" [routerLink]="['/admin/profile/profile-student/study']">Nueva formación</a>
+    </section>
+
+    <section id="language-table">
+        <h2>Idiomas</h2>
+        <table mat-table [dataSource]="languagesDatasource">
+            <ng-container matColumnDef="level">
+                <th mat-header-cell *matHeaderCellDef> Nivel</th>
+                <td mat-cell *matCellDef="let lang">{{lang.level.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="language">
+                <th mat-header-cell *matHeaderCellDef> Idioma</th>
+                <td mat-cell *matCellDef="let lang"> {{lang.name.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Fecha</th>
+                <td mat-cell *matCellDef="let lang"> {{lang.date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                <td mat-cell *matCellDef="let lang">
+                    <a mat-button color="primary" [routerLink]="['/admin/profile/profile-student/language',lang.uid]">Editar</a>
+                    |
+                    <a mat-button color="primary" style="cursor:pointer" (click)="deleteLanguage(lang.uid)">Borrar</a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLanguages"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLanguages;"></tr>
+        </table>
+
+        <a mat-button color="primary" [routerLink]="['/admin/profile/profile-student/language']">Nuevo idioma</a>
+    </section>
+
+    <section>
+        <h2>Experiencia laboral</h2>
+        <table mat-table [dataSource]="experienceDatasource">
+            <ng-container matColumnDef="company">
+                <th mat-header-cell *matHeaderCellDef> Empresa</th>
+                <td mat-cell *matCellDef="let experience"> {{experience.company}}</td>
+            </ng-container>
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Posición</th>
+                <td mat-cell *matCellDef="let experience"> {{experience.position}}</td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Empresa</th>
+                <td mat-cell *matCellDef="let experience"> {{experience.date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                <td mat-cell *matCellDef="let experience">
+                    <a mat-button color="primary" [routerLink]="['/admin/profile/profile-student/work-experience',experience.uid]">Editar</a>
+                    |
+                    <a mat-button color="primary" style="cursor:pointer" (click)="deleteExperience(experience.uid)">Borrar</a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsExperience"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsExperience;"></tr>
+        </table>
+        <a mat-button color="primary" [routerLink]="['/admin/profile/profile-student/work-experience']">Nueva experiencia</a>
+    </section>
+</mat-card>

@@ -1,0 +1,108 @@
+@import "./freelancer.min.css";
+
+#mainNav {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.clip-logo {
+    clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 66% 78%, 31% 78%, 6% 78%, 0% 43%, 17% 12%);
+}
+
+.text-translation:hover p:not(.text-bounce) {
+    opacity: 0;
+    transition: all .2s ease-in-out;
+}
+
+.text-translation:hover p.text-bounce {
+    transition: all 1.5s ease-in-out;
+    transform: scale(1.5);
+}
+
+#title {
+    animation-name: slide-down-title;
+    animation-duration: 1.5s;
+}
+
+.divider-custom {
+    animation: slide-down-title 1s;
+}
+
+.divider-custom-line:first-child {
+    animation: rotate-line 2s;
+    transform: rotate(10deg);
+}
+
+.divider-custom-line:last-child {
+    animation: rotate-line-inverse 2s;
+    transform: rotate(-10deg);
+}
+
+.list-group-item {
+    background-color: inherit;
+    border: 1px solid #1abc9c;
+    animation: footer-fade-in 0.5s linear;
+}
+
+.list-group-item:nth-child(1) {
+    animation-duration: 0.5s;
+}
+
+.list-group-item:nth-child(2) {
+    animation-duration: 1.5s;
+}
+
+@keyframes footer-fade-in {
+    0% {
+        opacity: 0;
+        top: -100px;
+    }
+    75% {
+        opacity: 0.5;
+        top: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes rotate-line {
+    0% {
+        transform: rotate(0deg);
+        max-width: 0;
+    }
+
+    50% {
+        max-width: 2rem;
+    }
+
+    100% {
+        transform: rotate(10deg);
+    }
+}
+
+@keyframes rotate-line-inverse {
+    0% {
+        transform: rotate(0deg);
+        max-width: 0;
+    }
+
+    50% {
+        max-width: 2rem;
+    }
+
+    100% {
+        transform: rotate(-10deg);
+    }
+}
+
+@keyframes slide-down-title {
+    0% {
+        transform: translate(0, -50px);
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+}

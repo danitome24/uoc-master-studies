@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  node:
+    container_name: html-tools-pec1
+    build: .
+    command: npm run dev
+    ports:
+      - 3000:1234
+    volumes:
+      - .:/usr/app/

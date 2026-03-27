@@ -1,0 +1,24 @@
+<mat-card>
+    <mat-card-header>
+        <div mat-card-avatar></div>
+        <mat-card-title>Configuración</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Idioma de la aplicación:</mat-label>
+                <mat-select (selectionChange)="updateAppLocale($event)">
+                    <mat-option *ngFor="let lang of availableAppLanguages" [value]="lang.id">
+                        {{lang.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Recibir notificaciones:
+                <mat-checkbox color="primary" (change)="updateNotifications($event)" [checked]="sendNotifications$ | async">
+                </mat-checkbox>
+            </mat-label>
+        </div>
+    </mat-card-content>
+</mat-card>

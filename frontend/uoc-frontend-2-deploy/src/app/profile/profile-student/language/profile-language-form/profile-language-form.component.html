@@ -1,0 +1,51 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Editar/Nuevo idioma</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="langForm" (submit)="submit()">
+            <div class="form-group">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nivel</mat-label>
+                    <mat-select
+                            [compareWith]="compareLevel"
+                            class="col-sm-10 form-control"
+                            name="level"
+                            formControlName="level">
+                        <mat-option [value]="level" *ngFor="let level of languageLevels">
+                            {{ level.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <mat-form-field appearance="fill">
+                    <mat-label>Idioma</mat-label>
+                    <mat-select class="col-sm-10 form-control"
+                                name="name"
+                                formControlName="name"
+                                [compareWith]="compareName">
+                        <mat-option [value]="name" *ngFor="let name of languageNames">
+                            {{ name.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha de obtención del título</mat-label>
+                    <input matInput
+                           type="text"
+                           name="date"
+                           class="col-sm-10 form-control"
+                           formControlName="date"/>
+                </mat-form-field>
+            </div>
+
+            <button mat-button color="primary" type="submit" [disabled]="langForm.invalid">
+                Guardar
+            </button>
+        </form>
+    </mat-card-content>
+</mat-card>

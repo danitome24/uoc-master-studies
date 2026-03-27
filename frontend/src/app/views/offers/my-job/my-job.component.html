@@ -1,0 +1,29 @@
+<div *ngIf="user.offers.length == 0">
+  <p>No te has inscrito en ninguna oferta todavía :(</p>
+</div>
+
+<table *ngIf="user.offers.length > 0">
+  <caption>Mis ofertas aplicadas</caption>
+  <thead>
+  <tr>
+    <th>Puesto</th>
+    <th>Empresa</th>
+    <th>Familia profesional</th>
+    <th>Fecha</th>
+    <th>Provincia</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let offer of user.offers">
+    <td>{{offer.job.name}}</td>
+    <td>{{offer.company.name}}</td>
+    <td>{{offer.category.name}}</td>
+    <td>{{offer.date}}</td>
+    <td>{{offer.province.name}}</td>
+    <td>En revisión</td>
+    <td><a [routerLink]="[offer.id, 'detail']">Ver</a></td>
+  </tr>
+  </tbody>
+</table>

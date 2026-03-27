@@ -1,0 +1,57 @@
+@use "sass:color";
+
+// Colors
+.lighten-background {
+  background-color: color.scale($background-main-lightness, $lightness: 10%);
+}
+
+// Sizes
+.fit-to-max-width {
+  width: 100%;
+}
+
+// Text
+.text-yellow {
+  color: $background-secondary-color;
+}
+
+.to-upper {
+  text-transform: uppercase;
+}
+
+@function text-size($size) {
+  @if $size == 'l' {
+    @return 20px;
+  }
+
+  @if $size == 'xl' {
+    @return 40px;
+  }
+}
+
+.text-size-l {
+  font-size: text-size('l');
+}
+
+.text-size-xl {
+  font-size: text-size('xl');
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+// Margins
+.margin-zero {
+  margin: 0;
+}
+
+.padding-top-l {
+  padding-top: 20px;
+}
+
+// Separators
+.top-separator {
+  border-top: 0.75px solid #fff;
+  padding-top: 25px;
+}

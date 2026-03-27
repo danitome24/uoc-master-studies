@@ -1,0 +1,28 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Detalles de la oferta</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-list>
+            <mat-list-item>Empresa: {{offer.company.name}}</mat-list-item>
+            <mat-list-item>Puesto: {{offer.job.name}}</mat-list-item>
+            <mat-list-item>Provincia: {{offer.province.name}}</mat-list-item>
+            <mat-list-item>Municipio: {{offer.municipe.name}}</mat-list-item>
+            <mat-list-item>Fecha publicación: {{offer.date}}</mat-list-item>
+            <mat-list-item>Categoría: {{offer.category.name}}</mat-list-item>
+            <mat-list-item>Tags: {{tagsFromOffer()}}</mat-list-item>
+        </mat-list>
+
+        <button mat-button color="primary" *ngIf="!(isSubscribed$ | async )"
+                class="btn btn-primary"
+                (click)="subscribeOffer()">
+            Inscribirse
+        </button>
+        <button mat-button color="primary"
+                *ngIf="(isSubscribed$ | async )"
+                class="btn btn-danger"
+                (click)="unsubscribeOffer()">
+            Eliminar oferta
+        </button>
+    </mat-card-content>
+</mat-card>

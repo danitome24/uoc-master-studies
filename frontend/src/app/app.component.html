@@ -1,0 +1,9 @@
+<div *ngIf="router.url != '/signin' && router.url != '/'">
+  <div class="row">
+    <a routerLink="/logout">LOGOUT</a>
+  </div>
+  <div class="row">
+    <a routerLink="/admin/dashboard">Dashboard</a>
+  </div>
+</div>
+<router-outlet></router-outlet>

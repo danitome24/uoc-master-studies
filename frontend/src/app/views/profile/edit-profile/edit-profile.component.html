@@ -1,0 +1,451 @@
+<div class="container">
+  <form [formGroup]="editProfileForm">
+    <div class="row">
+      <div>
+        <img class="profile-image" src="assets/profile-user.png" alt="User profile picture">
+        {{user.username}}
+      </div>
+      <div>
+        <!-- Name -->
+        <div>
+          <label>Nombre: <input type="text" formControlName="name"></label>
+          <div class="error" *ngIf="isInvalidByRequired('name')">
+            Nombre requerido
+          </div>
+          <div class="error" *ngIf="hasGoodLength('name')">
+            Longitud entre 3 y 55 caracteres
+          </div>
+          <div class="error" *ngIf="hasNoSpecialChars('name')">
+            No puede contener ni espacios ni caracteres especiales
+          </div>
+        </div>
+        <!-- Surname -->
+        <div>
+          <label>Apellidos: <input type="text" formControlName="surname"></label>
+          <div class="error" *ngIf="isInvalidByRequired('surname')">
+            Apellidos requerido
+          </div>
+          <div class="error" *ngIf="hasGoodLength('surname')">
+            Longitud entre 3 y 55 caracteres
+          </div>
+          <div class="error" *ngIf="hasNoSpecialChars('surname')">
+            No puede contener ni espacios ni caracteres especiales
+          </div>
+        </div>
+        <!-- Birthdate -->
+        <label>Fecha de nacimiento: <input type="text" formControlName="birthdate"></label>
+        <!-- Phone -->
+        <div>
+          <label>Teléfono: <input type="text" formControlName="phone"></label>
+          <div class="error" *ngIf="onlyNumbers('phone')">
+            Solamente números
+          </div>
+        </div>
+        <!-- Phone2 -->
+        <div>
+          <label>Teléfono 2: <input type="text" formControlName="phone2"></label>
+          <div class="error" *ngIf="onlyNumbers('phone2')">
+            Solamente números
+          </div>
+        </div>
+        <!-- NIF/NIE -->
+        <div>
+          <label>NIF/NIE:
+            <select formControlName="documentType" [compareWith]="sameUuid">
+              <option *ngFor="let nieType of nieTypes" [ngValue]="nieType">
+                {{ nieType.name }}
+              </option>
+            </select>
+          </label>
+        </div>
+        <!-- Document number -->
+        <label>Número de documento: <input type="text" formControlName="documentNumber"></label>
+        <div *ngIf="isNifInvalid()">
+          <p class="error">Nif Inválido</p>
+        </div>
+        <!-- Address -->
+        <div formGroupName="address">
+          <!-- Address -->
+          <div>
+            <label>Dirección: <input type="text" formControlName="street"></label>
+            <div class="error" *ngIf="isString('address.street')">
+              Usa carácteres.
+            </div>
+          </div>
+          <!-- Province -->
+          <div>
+            <label>Provincia:
+              <select formControlName="province" [compareWith]="sameUuid">
+                <option *ngFor="let province of provinces" [ngValue]="province">
+                  {{ province.name }}
+                </option>
+              </select>
+            </label>
+          </div>
+          <!-- Municipe -->
+          <div>
+            <label>Municipio:
+              <select formControlName="municipe" [compareWith]="sameUuid">
+                <!-- WIP -->
+                <option *ngFor="let municipe of municipes" [ngValue]="municipe">
+                  {{ municipe.name }}
+                </option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <!-- License -->
+        <div>
+          <label>Permisos de conducir: <input type="text" formControlName="license"></label>
+        </div>
+      </div>
+    </div>
+    <!-- About me -->
+    <div class="row">
+      <label for="about-me">Acerca de mi</label>
+      <textarea id="about-me" class="textarea-size" formControlName="aboutMe">
+      </textarea>
+    </div>
+
+    <!-- Other competencies -->
+    <div class="row">
+      <label for="other-competencies">Otras competencias</label>
+      <textarea id="other-competencies" class="textarea-size" formControlName="otherCompetencies">
+      </textarea>
+    </div>
+
+    <!-- Studies -->
+    <div class="row">
+      <table>
+        <caption>Formación academica</caption>
+        <thead>
+        <tr>
+          <th>Nivel</th>
+          <th>Título</th>
+          <th>Centro</th>
+          <th>Fecha</th>
+          <th>Certificado</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let study of user.studies">
+          <td>{{study.level.name}}</td>
+          <td>{{study.title}}</td>
+          <td>{{study.institution.name || study.institution}}</td>
+          <td>{{study.date}}</td>
+          <td>{{study.certificate}}</td>
+          <td>
+            <button (click)="removeStudy(study.uid)">Borrar</button>
+            <button (click)="editStudy(study)">Editar</button>
+          </td>
+        </tbody>
+      </table>
+      <!-- Edit CollegeStudy Form -->
+      <div *ngIf="showEditCollegeStudyForm">
+        <form [formGroup]="editCollegeStudyForm">
+          <!-- Level -->
+          <div>
+            <label>Nivel:
+              <select formControlName="level" [compareWith]="sameUuid">
+                <option *ngFor="let level2 of levels" [ngValue]="level2">{{level2.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Title -->
+          <div>
+            <label>Título: <input type="text" formControlName="title"></label>
+          </div>
+          <!-- Certificate -->
+          <div>
+            <label>Certificado: <input type="checkbox" formControlName="certificate"></label>
+          </div>
+          <!-- Date -->
+          <div>
+            <label>Fecha:<input type="text" formControlName="date"></label>
+          </div>
+          <!-- Bilingue -->
+          <div>
+            <label>Bilingue: <input type="checkbox" formControlName="bilingue"></label>
+          </div>
+          <!-- Institution -->
+          <div>
+            <label>Institución: <input type="text" formControlName="institution"></label>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <button (click)="submitEditCollege()">Guardar cambios</button>
+            <button (click)="this.showEditCollegeStudyForm = false;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <!-- Edit VocationalStudy Form -->
+      <div *ngIf="showEditVocationalStudyForm">
+        <form [formGroup]="editVocationalStudyForm">
+          <!-- Level -->
+          <div>
+            <label>Nivel:
+              <select formControlName="level" [compareWith]="sameUuid">
+                <option *ngFor="let level2 of levels" [ngValue]="level2">{{level2.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Institution -->
+          <div>
+            <label>
+              Institución
+              <select formControlName="institution" [compareWith]="sameUuid">
+                <option *ngFor="let institution of allInstitutions"
+                        [ngValue]="institution">{{institution.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Title -->
+          <div>
+            <label>Título: <input type="text" formControlName="title"></label>
+          </div>
+          <!-- Category -->
+          <div>
+            <label>
+              Categoría
+              <select formControlName="category" [compareWith]="sameUuid">
+                <option *ngFor="let category of allCategories" [ngValue]="category">{{category.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Grade -->
+          <div>
+            <label>
+              Grado
+              <select formControlName="grade" [compareWith]="sameUuid">
+                <option *ngFor="let grade of allGrades" [ngValue]="grade">{{grade.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Date -->
+          <div>
+            <label>Fecha: <input type="text" formControlName="date"> </label>
+          </div>
+          <!-- Dual -->
+          <div>
+            <label>Dual <input type="checkbox" formControlName="dual"></label>
+          </div>
+          <!-- Bilingüe -->
+          <div>
+            <label>Bilingüe<input type="checkbox" formControlName="bilingue"></label>
+          </div>
+          <!-- Certificate -->
+          <div>
+            <label>Certificado<input type="checkbox" formControlName="certificate"></label>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <button (click)="submitEditStudy()">Guardar cambios</button>
+            <button (click)="this.showEditVocationalStudyForm = false;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <!-- New Vocational Study Form -->
+      <div *ngIf="showNewVocationalStudyForm">
+        <form [formGroup]="newVocationalStudyForm">
+          <!-- Level -->
+          <div formGroupName="level">
+            <label>Nivel:
+              <input type="text" formControlName="name" [readOnly]="true">
+            </label>
+          </div>
+          <!-- Institution -->
+          <div>
+            <label>
+              Institución
+              <select formControlName="institution">
+                <option *ngFor="let institution of allInstitutions"
+                        [ngValue]="institution">{{institution.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Title -->
+          <div>
+            <label>Título: <input type="text" formControlName="title"></label>
+          </div>
+          <!-- Category -->
+          <div>
+            <label>
+              Categoría
+              <select formControlName="category">
+                <option *ngFor="let category of allCategories" [ngValue]="category">{{category.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Grade -->
+          <div>
+            <label>
+              Grado
+              <select formControlName="grade">
+                <option *ngFor="let grade of allGrades" [ngValue]="grade">{{grade.name}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- Date -->
+          <div>
+            <label>Fecha: <input type="text" formControlName="date"> </label>
+          </div>
+          <!-- Dual -->
+          <div>
+            <label>Dual <input type="checkbox" formControlName="dual"></label>
+          </div>
+          <!-- Bilingüe -->
+          <div>
+            <label>Bilingüe<input type="checkbox" formControlName="bilingue"></label>
+          </div>
+          <!-- Certificate -->
+          <div>
+            <label>Certificado<input type="checkbox" formControlName="certificate"></label>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <button (click)="submitNewVocationalStudy()">Guardar nuevo</button>
+            <button (click)="cancelNewStudy()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <!-- New College Study Form -->
+      <div *ngIf="showNewCollegeStudyForm">
+        <form [formGroup]="newCollegeStudyForm">
+          <!-- Level -->
+          <div formGroupName="level">
+            <label>Nivel:
+              <input type="text" formControlName="name" [readOnly]="true">
+            </label>
+          </div>
+          <!-- Title -->
+          <div>
+            <label>Título: <input type="text" formControlName="title"></label>
+          </div>
+          <!-- Certificate -->
+          <div>
+            <label>Certificado: <input type="checkbox" formControlName="certificate"></label>
+          </div>
+          <!-- Date -->
+          <div>
+            <label>Fecha:<input type="text" formControlName="date"></label>
+          </div>
+          <!-- Bilingue -->
+          <div>
+            <label>Bilingue: <input type="checkbox" formControlName="bilingue"></label>
+          </div>
+          <!-- Institution -->
+          <div>
+            <label>Institución: <input type="text" formControlName="institution"></label>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <button (click)="submitNewCollegeStudy()">Guardar nuevo</button>
+            <button (click)="cancelNewStudy()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <button (click)="showVocationalForm()">Nuevo Ciclo</button>
+      <button (click)="showCollegeForm()">Nuevo Grado</button>
+    </div>
+
+    <!-- Languages -->
+    <div class="row">
+      <table>
+        <caption>Idiomas</caption>
+        <thead>
+        <tr>
+          <th>Nivel</th>
+          <th>Idioma</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let language of user.languages">
+          <td>{{language.level.name}}</td>
+          <td>{{language.name.name}}</td>
+          <td>{{language.date}}</td>
+          <td>
+            <button (click)="removeLanguage(language.uid)">Borrar</button>
+            <button (click)="editLanguage(language)">Editar</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!-- Edit Language -->
+      <div *ngIf="showEditLanguageForm">
+        <form [formGroup]="editLanguageForm">
+          <!-- Level -->
+          <div>
+            <label>Nivel:
+              <select formControlName="level" [compareWith]="sameUuid">
+                <option *ngFor="let languageLevel of allLanguageLevels" [ngValue]="languageLevel">
+                  {{languageLevel.name}}
+                </option>
+              </select>
+            </label>
+          </div>
+          <!-- Name -->
+          <div>
+            <label>Idioma:
+              <select formControlName="name" [compareWith]="sameUuid">
+                <option *ngFor="let languageName of allLanguages" [ngValue]="languageName">
+                  {{languageName.name}}
+                </option>
+              </select>
+            </label>
+          </div>
+          <!-- Date -->
+          <div>
+            <label>Fecha: <input formControlName="date" type="text"></label>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <button (click)="submitEditLanguage()">Guardar cambios</button>
+            <button (click)="this.showEditLanguageForm = false;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <!-- New Language -->
+      <div *ngIf="showNewLanguageForm">
+        <form [formGroup]="newLanguageForm">
+          <!-- Level -->
+          <div>
+            <label>Nivel:
+              <select formControlName="level">
+                <option *ngFor="let languageLevel of allLanguageLevels" [ngValue]="languageLevel">
+                  {{languageLevel.name}}
+                </option>
+              </select>
+            </label>
+          </div>
+          <!-- Name -->
+          <div>
+            <label>Idioma:
+              <select formControlName="name">
+                <option *ngFor="let languageName of allLanguages" [ngValue]="languageName">
+                  {{languageName.name}}
+                </option>
+              </select>
+            </label>
+          </div>
+          <!-- Date -->
+          <div>
+            <label>Fecha: <input formControlName="date" type="text"></label>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <button (click)="submitNewLanguage()">Guardar nuevo idioma</button>
+            <button (click)="this.showNewLanguageForm = false;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <button (click)="this.createNewLanguageForm()">Nuevo idioma</button>
+      </div>
+    </div>
+
+    <button (click)="submitEditUser()">Guardar</button>
+  </form>
+</div>

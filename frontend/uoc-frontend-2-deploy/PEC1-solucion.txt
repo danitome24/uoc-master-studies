@@ -1,0 +1,18 @@
+1- Creado shared/components/admin-layout <- Componente
+2- Creadas la directivas para validaciones custom Forms:
+  shared/directives/date-validator.directive
+  shared/directives/document-number
+3- Creados datos de mockeo de posibles usos:
+  shared/inmemory-db/countries.ts
+  shared/inmemory-db/users.ts
+4- Creación de los servicios
+  shared/services/profile.service.ts
+  shared/services/offers.service.ts
+5- Modificación de constantes
+  shared/app.settings.ts
+6- Creación de mock-data.ts (datos falsos)
+  shared/mock-data.ts
+7- Creación de todas las vistas
+  views/**
+
+

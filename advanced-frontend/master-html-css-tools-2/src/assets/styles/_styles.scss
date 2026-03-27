@@ -1,0 +1,164 @@
+// Logo
+@media (max-width: $small-devices-min-width) {
+  .padding-logo {
+    padding: 30px 0 10px;
+  }
+}
+
+@media (min-width: $medium-devices-min-width) {
+  .padding-logo {
+    padding: 20px;
+  }
+}
+
+@media (min-width: $large-devices-min-width) {
+  .padding-logo {
+    padding: 30px;
+  }
+}
+
+@media (min-width: $extra-large-devices-min-width) {
+  .padding-logo {
+    padding: 40px;
+  }
+}
+
+// Title
+.header-title {
+  text-align: center;
+}
+
+// Size {
+@mixin block-paddings {
+  padding-right: 20px;
+  padding-top: 30px;
+  text-align: right;
+}
+
+@mixin block-paragraph-padding {
+  p {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+}
+
+@mixin block-heading-padding {
+  h4 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.about-me-block {
+  @include block-paddings;
+}
+
+.about-me-desc-block {
+  margin-bottom: 50px;
+
+  @include block-paragraph-padding;
+  @include block-heading-padding;
+
+  @media (max-width: $small-devices-min-width) {
+    display: block;
+
+    div {
+      max-width: 100%;
+    }
+  }
+}
+
+.experience-title-block {
+  @include block-paddings;
+}
+
+.contact-title-block {
+  @include block-paddings;
+}
+
+.contact-desc-block {
+  margin-bottom: 50px;
+
+  @include block-heading-padding;
+  @include block-paragraph-padding;
+}
+
+// Lists
+.heading-social {
+  list-style: none;
+  padding: 0;
+}
+
+.heading-social-item {
+  display: inline;
+  text-decoration: none;
+}
+
+.heading-social-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.heading-social-item a:hover i.fa-facebook-square {
+  color: #3b5998;
+}
+
+.heading-social-item a:hover i.fa-twitter-square {
+  color: #00acee;
+}
+
+.heading-social-item a:hover i.fa-github-square {
+  color: #24292e;
+}
+
+// Timeline
+.timeline-block {
+  text-decoration: none;
+  list-style: none;
+  position: relative;
+  max-width: 46em;
+
+  &::before {
+    background-color: #fff;
+    content: '';
+    margin-left: -1px;
+    position: absolute;
+    top: 0;
+    left: 2em;
+    width: 2px;
+    height: 100%;
+  }
+}
+
+.timeline-work-item {
+  position: relative;
+}
+
+.timeline-work-item-desc {
+  position: relative;
+  top: -1.875em;
+
+  @media (min-width: $medium-devices-min-width) {
+    left: 4em;
+    width: 80%;
+  }
+}
+
+.work-name {
+  font-size: 1.75em;
+}
+
+.position-name {
+  font-size: 1.2em;
+}
+
+.timeline-work-item-time {
+  color: #fff;
+  font-size: 0.75em;
+  background-color: $background-secondary-color;
+  display: inline-block;
+  margin-bottom: 1.2em;
+  padding: 0.25em 1em 0.2em 1em;
+}
